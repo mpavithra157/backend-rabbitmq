@@ -1,21 +1,26 @@
 package com.example.demo.producer;
-
+ 
+import com.example.demo.config.RabbitMQConfig;
 import com.example.demo.dto.RecordRequest;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.BlockingQueue;
-
+ 
 @Component
 public class RecordProducer {
-
-    private final BlockingQueue<RecordRequest> queue;
-
-    public RecordProducer(BlockingQueue<RecordRequest> queue) {
-        this.queue = queue;
+ 
+    private final RabbitTemplate rabbitTemplate;
+ 
+    public RecordProducer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
-
-    public void produce(RecordRequest req) throws InterruptedException {
-        queue.put(req);
-        System.out.println("[Producer] queued: " + req.getData());
+ 
+    public void sendMessage(RecordRequest request) {
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.EXCHANGE,
+                RabbitMQConfig.ROUTING_KEY,
+                request
+        );
+ 
+        System.out.println("[Producer] Sent message to RabbitMQ → " + request.getAction() + " : " + request.getData());
     }
 }
