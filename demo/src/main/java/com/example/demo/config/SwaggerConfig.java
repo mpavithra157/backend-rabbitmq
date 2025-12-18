@@ -17,7 +17,7 @@ public class SwaggerConfig {
                         .title("Producer API")
                         .version("1.0")
                         .description("API documentation for Producer Service")
-                        .contact(new Contact().name("Pavithra").email("pavi@example.com")))
+                        .contact(new Contact().name("Pavithra").email("pavithra@cg.com")))
                 .externalDocs(new ExternalDocumentation()
                         .description("Project Wiki")
                         .url("https://example.com"));
